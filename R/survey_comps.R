@@ -201,7 +201,7 @@ survey_comps <- function(
               month = month,
               fleet = fleet_num,
               strata = strata_triennial_early,
-              dir = NULL,
+              dir = len_dir,
               verbose = FALSE
             )
           } else {
@@ -220,7 +220,7 @@ survey_comps <- function(
               month = month,
               fleet = fleet_num,
               strata = strata_triennial_late,
-              dir = NULL,
+              dir = len_dir,
               verbose = FALSE
             )
           } else {
@@ -326,7 +326,7 @@ survey_comps <- function(
                 fleet = fleet_num,
                 strata = strata_triennial_early,
                 ageerr = ageerr,
-                dir = NULL,
+                dir = age_dir,
                 verbose = FALSE
               )
             } else {
@@ -345,7 +345,7 @@ survey_comps <- function(
                 fleet = fleet_num,
                 strata = strata_triennial_late,
                 ageerr = ageerr,
-                dir = NULL,
+                dir = age_dir,
                 verbose = FALSE
               )
             } else {
