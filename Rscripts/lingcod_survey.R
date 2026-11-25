@@ -124,10 +124,10 @@ if (pull_fresh) {
   )
 } #/ data download
 
-  # Patch specific to hook and line survey -----------------------------------------
-  # if the colnames are in snake case, update so that the function below will work
-names(bio.HKL$bio_data)[names(bio.HKL$bio_data)=="age_years"] <- "Age_years"
-names(bio.HKL$bio_data)[names(bio.HKL$bio_data)=="length_cm"] <- "Length_cm"
+# Patch specific to hook and line survey -----------------------------------------
+# if the colnames are in snake case, update so that the function below will work
+names(bio.HKL$bio_data)[names(bio.HKL$bio_data) == "age_years"] <- "Age_years"
+names(bio.HKL$bio_data)[names(bio.HKL$bio_data) == "length_cm"] <- "Length_cm"
 
 ###############################################################################
 # Strata for index calculation and length/age comps
@@ -187,7 +187,11 @@ names(bio.HKL$bio_data)[names(bio.HKL$bio_data)=="length_cm"] <- "Length_cm"
 # Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
 # (this is also from Brian but it might help show the cutoff options for the deepest stratum)
 grDevices::png(
-  filename = file.path("data_output", "NOAA surveys", "Triennial_cpueXdepth.png")
+  filename = file.path(
+    "data_output",
+    "NOAA surveys",
+    "Triennial_cpueXdepth.png"
+  )
 )
 plot(
   x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$Depth_m,
@@ -203,7 +207,11 @@ grDevices::dev.off()
 
 
 grDevices::png(
-  filename = file.path("data_output", "NOAA surveys", "Triennial_cpueXlatitude.png")
+  filename = file.path(
+    "data_output",
+    "NOAA surveys",
+    "Triennial_cpueXlatitude.png"
+  )
 )
 par(mfrow = c(2, 1))
 plot(
@@ -279,7 +287,7 @@ all_comps_combined <- survey_comps(
 )
 
 # Give the comps data objects specific names and freeze them as data objects internal to lingcod pkg:
-# These have both 'combined_sexes' and 'two_sex' as list elements, so you will have to select one. 
+# These have both 'combined_sexes' and 'two_sex' as list elements, so you will have to select one.
 # I believe the 2021 assessment combines the sexes.
 
 ageCAAL_N_WCGBTS <- all_comps_combined$WCGBTS$north$caal
@@ -300,7 +308,26 @@ lenComp_N_Triennial <- all_comps_combined$Triennial$north$length
 lenComp_S_Triennial <- all_comps_combined$Triennial$south$length
 lenComp_S_HKL <- all_comps_combined$HKL$south$length
 
+# Save datasets to package with usethis:
+usethis::use_data(
+  ageCAAL_N_WCGBTS,
+  ageCAAL_S_WCGBTS,
+  ageCAAL_N_Triennial,
+  ageCAAL_S_Triennial,
+  ageCAAL_S_HKL,
 
+  ageComp_N_WCGBTS,
+  ageComp_S_WCGBTS,
+  ageComp_N_Triennial,
+  ageComp_S_Triennial,
+  ageComp_S_HKL,
+
+  lenComp_N_WCGBTS,
+  lenComp_S_WCGBTS,
+  lenComp_N_Triennial,
+  lenComp_S_Triennial,
+  lenComp_S_HKL
+)
 
 ###############################################################################
 # Exploratory figures
@@ -315,7 +342,11 @@ nwfscSurvey::plot_cpue(
   dir = "data_output/NOAA surveys"
 )
 
-f <- list.files("data_output/NOAA surveys", pattern = "^cpue_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^cpue_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("north_Triennial_", basename(f)))
@@ -327,7 +358,11 @@ nwfscSurvey::plot_cpue(
   dir = "data_output/NOAA surveys"
 )
 # rename files with north_WCGBTS prefix:
-f <- list.files("data_output/NOAA surveys", pattern = "^cpue_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^cpue_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("north_WCGBTS_", basename(f)))
@@ -339,7 +374,11 @@ nwfscSurvey::plot_cpue(
   data = catch.Triennial[catch.Triennial$Latitude_dd < breaks_lat["40-10"], ],
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^cpue_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^cpue_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_Triennial_", basename(f)))
@@ -350,7 +389,11 @@ nwfscSurvey::plot_cpue(
   data = catch.WCGBTS[catch.WCGBTS$Latitude_dd < breaks_lat["40-10"], ],
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^cpue_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^cpue_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_WCGBTS_", basename(f)))
@@ -400,8 +443,15 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Length_cm",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Length_cm_by_", full.names = TRUE)
-file.rename(f, file.path("data_output/NOAA surveys", paste0("north_WCGBTS_", basename(f))))
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Length_cm_by_",
+  full.names = TRUE
+)
+file.rename(
+  f,
+  file.path("data_output/NOAA surveys", paste0("north_WCGBTS_", basename(f)))
+)
 
 # Age
 nwfscSurvey::plot_bio_patterns(
@@ -411,8 +461,15 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Age",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Age_by_", full.names = TRUE)
-file.rename(f, file.path("data_output/NOAA surveys", paste0("north_WCGBTS_", basename(f))))
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Age_by_",
+  full.names = TRUE
+)
+file.rename(
+  f,
+  file.path("data_output/NOAA surveys", paste0("north_WCGBTS_", basename(f)))
+)
 
 # * Triennial
 # Length
@@ -424,7 +481,11 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Length_cm",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Length_cm_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Length_cm_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("north_Triennial_", basename(f)))
@@ -439,7 +500,11 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Age",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Age_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Age_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("north_Triennial_", basename(f)))
@@ -458,8 +523,15 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Length_cm",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Length_cm_by_", full.names = TRUE)
-file.rename(f, file.path("data_output/NOAA surveys", paste0("south_WCGBTS_", basename(f))))
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Length_cm_by_",
+  full.names = TRUE
+)
+file.rename(
+  f,
+  file.path("data_output/NOAA surveys", paste0("south_WCGBTS_", basename(f)))
+)
 
 # * * Age
 nwfscSurvey::plot_bio_patterns(
@@ -469,8 +541,15 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Age",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Age_by_", full.names = TRUE)
-file.rename(f, file.path("data_output/NOAA surveys", paste0("south_WCGBTS_", basename(f))))
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Age_by_",
+  full.names = TRUE
+)
+file.rename(
+  f,
+  file.path("data_output/NOAA surveys", paste0("south_WCGBTS_", basename(f)))
+)
 
 # * Triennial
 # * * Length
@@ -482,7 +561,11 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Length_cm",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Length_cm_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Length_cm_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_Triennial_", basename(f)))
@@ -497,7 +580,11 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Age",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Age_by_", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Age_by_",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_Triennial_", basename(f)))
@@ -514,8 +601,15 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Length_cm",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Length_cm_by_", full.names = TRUE)
-file.rename(f, file.path("data_output/NOAA surveys", paste0("south_HKL_", basename(f))))
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Length_cm_by_",
+  full.names = TRUE
+)
+file.rename(
+  f,
+  file.path("data_output/NOAA surveys", paste0("south_HKL_", basename(f)))
+)
 
 # * * Age
 nwfscSurvey::plot_bio_patterns(
@@ -523,8 +617,15 @@ nwfscSurvey::plot_bio_patterns(
   col_name = "Age",
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^Age_by_", full.names = TRUE)
-file.rename(f, file.path("data_output/NOAA surveys", paste0("south_HKL_", basename(f))))
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^Age_by_",
+  full.names = TRUE
+)
+file.rename(
+  f,
+  file.path("data_output/NOAA surveys", paste0("south_HKL_", basename(f)))
+)
 
 # Length_age plots -------------------------------------------------------------
 # --------------------------------- NORTH --------------------------------------
@@ -538,7 +639,11 @@ nwfscSurvey::plot_length_age(
   two_sex = FALSE,
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^length_at_age", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^length_at_age",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("north_WCGBTS_", basename(f)))
@@ -555,7 +660,11 @@ nwfscSurvey::plot_length_age(
   two_sex = FALSE,
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^length_at_age", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^length_at_age",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("north_Triennial_", basename(f)))
@@ -573,7 +682,11 @@ nwfscSurvey::plot_length_age(
   two_sex = FALSE,
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^length_at_age", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^length_at_age",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_WCGBTS_", basename(f)))
@@ -590,7 +703,11 @@ nwfscSurvey::plot_length_age(
   two_sex = FALSE,
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^length_at_age", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^length_at_age",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_Triennial_", basename(f)))
@@ -608,7 +725,11 @@ nwfscSurvey::plot_length_age(
   two_sex = FALSE,
   dir = "data_output/NOAA surveys"
 )
-f <- list.files("data_output/NOAA surveys", pattern = "^length_at_age", full.names = TRUE)
+f <- list.files(
+  "data_output/NOAA surveys",
+  pattern = "^length_at_age",
+  full.names = TRUE
+)
 file.rename(
   f,
   file.path("data_output/NOAA surveys", paste0("south_HKL_", basename(f)))
@@ -807,7 +928,7 @@ nwfscSurvey::plot_weight_length(
 # --------------------------------- NORTH --------------------------------------
 # * WCGBTS
 # nwfscSurvey::plot_sex_ratio_strata(data = bio.WCGBTS[
-#     which(bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),], 
-#   strata = strata_wcgbts, 
+#     which(bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),],
+#   strata = strata_wcgbts,
 #   comp_column_name = "Age",
 #   main = "north_WCGBTS")
