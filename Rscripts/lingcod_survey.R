@@ -124,6 +124,11 @@ if (pull_fresh) {
   )
 } #/ data download
 
+  # Patch specific to hook and line survey -----------------------------------------
+  # if the colnames are in snake case, update so that the function below will work
+names(bio.HKL$bio_data)[names(bio.HKL$bio_data)=="age_years"] <- "Age_years"
+names(bio.HKL$bio_data)[names(bio.HKL$bio_data)=="length_cm"] <- "Length_cm"
+
 ###############################################################################
 # Strata for index calculation and length/age comps
 ###############################################################################
@@ -272,6 +277,29 @@ all_comps_combined <- survey_comps(
   input_n_method = "stewart_hamel",
   base_dir = "data_output/NOAA surveys"
 )
+
+# Give the comps data objects specific names and freeze them as data objects internal to lingcod pkg:
+# These have both 'combined_sexes' and 'two_sex' as list elements, so you will have to select one. 
+# I believe the 2021 assessment combines the sexes.
+
+ageCAAL_N_WCGBTS <- all_comps_combined$WCGBTS$north$caal
+ageCAAL_S_WCGBTS <- all_comps_combined$WCGBTS$south$caal
+ageCAAL_N_Triennial <- all_comps_combined$Triennial$north$caal
+ageCAAL_S_Triennial <- all_comps_combined$Triennial$south$caal
+ageCAAL_S_HKL <- all_comps_combined$HKL$south$caal
+
+ageComp_N_WCGBTS <- all_comps_combined$WCGBTS$north$age
+ageComp_S_WCGBTS <- all_comps_combined$WCGBTS$south$age
+ageComp_N_Triennial <- all_comps_combined$Triennial$north$age
+ageComp_S_Triennial <- all_comps_combined$Triennial$south$age
+ageComp_S_HKL <- all_comps_combined$HKL$south$age
+
+lenComp_N_WCGBTS <- all_comps_combined$WCGBTS$north$length
+lenComp_S_WCGBTS <- all_comps_combined$WCGBTS$south$length
+lenComp_N_Triennial <- all_comps_combined$Triennial$north$length
+lenComp_S_Triennial <- all_comps_combined$Triennial$south$length
+lenComp_S_HKL <- all_comps_combined$HKL$south$length
+
 
 
 ###############################################################################
